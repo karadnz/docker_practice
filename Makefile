@@ -1,25 +1,32 @@
-# -f: --file
-# -q: --quiet
-# -a: --all
-# $$: escape $ for shell
-all:
-	@mkdir -p $(HOME)/data/wordpress
-	@mkdir -p $(HOME)/data/mariadb
-	@docker-compose -f ./srcs/docker-compose.yml up
+
+all: up
+
+up:
+	mkdir -p /home/data/wordpress
+	mkdir -p /home/data/mariadb
+	docker-compose -f ./srcs/docker-compose.yml up
 
 down:
-	@docker-compose -f ./srcs/docker-compose.yml down
-
-re:
-	@docker-compose -f srcs/docker-compose.yml up --build
+	docker-compose -f ./srcs/docker-compose.yml down
 
 clean:
-	@docker stop $$(docker ps -qa);\
-	docker rm $$(docker ps -qa);\
-	docker rmi -f $$(docker images -qa);\
-	docker volume rm $$(docker volume ls -q);\
-	docker network rm $$(docker network ls -q);\
-	rm -rf $(HOME)/data/wordpress
-	rm -rf $(HOME)/data/mariadb
+	docker stop $$(docker ps -qa)			||	 true
+	docker rm $$(docker ps -qa)			||	 true
+	
+fclean:
+	docker stop $$(docker ps -qa)			||	 true
+	docker rm $$(docker ps -qa)			||	 true
+	docker rmi -f $$(docker images -q)		||	 true
+	docker volume rm $$(docker volume ls -q)	||	 true
+	docker network rm $$(docker network ls -q)	||	 true
+	rm -rf /home/data/wordpress			||	 true
+	rm -rf /home/data/mariadb			||	 true
 
-.PHONY: all re down clean
+
+re: 
+	mkdir -p /home/data/wordpress
+	mkdir -p /home/data/mariadb
+	docker-compose -f ./srcs/docker-compose.yml up --build
+
+.PHONY: all up down clean re
+
