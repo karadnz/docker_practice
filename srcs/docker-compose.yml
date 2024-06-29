@@ -1,12 +1,17 @@
 version: "3.5"
 
-networks:
+# Define a custom networks for the containers to communicate (bridge -> virtual switch)
+networks: 
   app-network:
     name: app-network
     driver: bridge
 
+# Define volumes for persistent data storage
 volumes:
+
+  # A volume named wp bound to the host directory $HOME/data/wordpress for persistent WordPress data storage.
   wp:
+    # Store it in the host machine (other options: nfs, btrfs, flocker ..)
     driver: local
     name: wp
     driver_opts:
@@ -21,7 +26,10 @@ volumes:
       o: bind
       device: /$HOME/data/mariadb
 
+# Build containers
 services:
+
+  # Manages the WordPress database.
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
@@ -33,6 +41,7 @@ services:
       - app-network
     restart: unless-stopped
 
+  # Provides the content management system and handles dynamic content generation.
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
@@ -46,9 +55,12 @@ services:
       - app-network
     restart: unless-stopped
 
+  # Serves static content and forwards dynamic content requests to WordPress using FastCGI.
+  # Manages secure connections with SSL.
   nginx:
     container_name: nginx
     build: ./requirements/nginx
+    # Maps port 443 on the host to port 443 in the container for HTTPS.
     ports:
       - "443:443"
     depends_on:
