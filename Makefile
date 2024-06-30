@@ -29,4 +29,6 @@ clean:
 	rm -rf $(HOME)/data/wordpress
 	rm -rf $(HOME)/data/mariadb
 
-.PHONY: all re down clean
+connect:
+	docker exec -it mariadb sh
+.PHONY: all re down clean connect
