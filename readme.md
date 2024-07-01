@@ -9,18 +9,16 @@ This project sets up a WordPress website with a MariaDB database backend and an 
 ![Diyagram](./imgs/image.png)
 
 ## Concepts
-
-### Docker
-Docker is a platform for developing, shipping, and running applications in containers. Containers package the application with its dependencies, ensuring consistency across different environments.
-
-### Docker Compose
-Docker Compose is a tool for defining and running multi-container Docker applications using a `docker-compose.yml` file to configure the services.
-
-### PHP-FPM
-PHP-FPM (FastCGI Process Manager) is an alternative PHP FastCGI implementation with additional features for managing high-traffic websites. It provides advanced process management, slow log, and adaptive process spawning.
-
-### FastCGI
-FastCGI is a protocol for interfacing interactive programs with a web server. It keeps processes alive to handle multiple requests, reducing the overhead associated with starting new processes.
+### Docker Concepts
+- **Docker Images:** Read-only templates used to create containers. They contain the application code, runtime, libraries, and dependencies needed to run the application.
+- **Docker Containers:** Lightweight, standalone, and executable packages that run the application using the image. Containers are isolated but can communicate with each other.
+- **Docker Networks:** Allow containers to communicate with each other. In this project, a custom bridge network (app-network) is used.
+- **Docker Volumes:** Persist data generated and used by Docker containers. Volumes ensure that data is not lost when containers are stopped or restarted.
+- **Docker Compose:** A tool for defining and running multi-container Docker applications. The docker-compose.yml file specifies the services, networks, and volumes needed for the application.
+### Application Concepts
+- **WordPress:** A content management system (CMS) used to create and manage websites. In this project, it runs in a container, with PHP-FPM handling PHP processing.
+- **Nginx:** A high-performance web server used to serve static files and act as a reverse proxy to handle dynamic requests by forwarding them to PHP-FPM. It also manages HTTPS connections.
+- **MariaDB:** An relational database management system (RDBMS) forked from MySQL. It stores all the data for the WordPress site and runs in a dedicated container.
 
 ## Project Structure
 
