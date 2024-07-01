@@ -1,8 +1,12 @@
-# docker_projcet
+# docker_project
 
 ## Overview
 
 This project sets up a WordPress website with a MariaDB database backend and an Nginx web server using Docker. Each component runs in its own container, providing a modular and isolated environment. The setup ensures secure and efficient operation with persistent data storage. You can also check the comments in the files to get additional information.
+
+## Diagram
+
+![Diyagram](./imgs/image.png)
 
 ## Concepts
 
